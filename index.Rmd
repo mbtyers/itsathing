@@ -47,10 +47,10 @@ locations <- esc %>%
 datatable(locations)
 ```
 
-```{r,eval=F}
-leaflet(locations) %>% 
-  addTiles() %>% 
-  addMarkers(~ Longitude, ~ Latitude, popup = ~ Location)
+```{r,eval=T}
+# leaflet(locations) %>% 
+#   addTiles() %>% 
+#   addMarkers(~ Longitude, ~ Latitude, popup = ~ Location)
 
 # Use a custom marker so Leaflet doesn't try to grab the marker images from 
 # its CDN (this was brought up in 
@@ -63,4 +63,10 @@ markerIcon <- makeIcon(
   shadowWidth = 41, shadowHeight = 41,
   shadowAnchorX = 13, shadowAnchorY = 41
 )
+
+locs <- locations %>% mutate(Longitude = abs(Longitude) * -1)
+
+leaflet(locs) %>% 
+  addTiles() %>% 
+  addMarkers(~ Longitude, ~ Latitude, popup = ~ Location, icon = markerIcon)
 ```
